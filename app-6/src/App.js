@@ -3,16 +3,47 @@ import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      list: [],
+      input: ""
+    };
+
+    this.handleAddTask = this.handleAddTask.bind(this);
+  }
+
+  handleInputChange(value) {
+    this.setState({ input: value });
+  }
+
+  handleAddTask() {
+    this.setState({
+      list: [...this.state.list, this.state.input],
+      input: ""
+    });
+  }
+
   render() {
+    let listToDisplay = this.state.list.map((element, index) => {
+      return <h3 key={index}>{element}</h3>;
+    })
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+        <h1>My to-do list:</h1>
+        <div>
+          <input
+            value={this.state.input}
+            placeholder="Enter new task"
+            onChange={event => this.handleInputChange(event.target.value)}
+          />
+          <button onClick={this.handleAddTask}>Add</button>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+
+        <br />
+
+        {listToDisplay}
       </div>
     );
   }
